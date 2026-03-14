@@ -2,15 +2,19 @@
 
 import { useEffect, useRef } from "react";
 import type { TranscriptEntry } from "@/hooks/useSTTWebSocket";
+import { EditableTranscript } from "@/components/EditableTranscript";
+import { HighlightedText } from "@/components/HighlightedText";
 
 interface TranscriptDisplayProps {
   transcripts: TranscriptEntry[];
   currentPartial: string;
+  onUpdateTranscript?: (index: number, newText: string) => void;
 }
 
 export function TranscriptDisplay({
   transcripts,
   currentPartial,
+  onUpdateTranscript,
 }: TranscriptDisplayProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -29,17 +33,22 @@ export function TranscriptDisplay({
         </p>
       ) : (
         <div className="space-y-1">
-          {/* 확정된 텍스트 (검은색) */}
+          {/* 확정된 텍스트 - 하이라이팅 + 클릭 수정 */}
           {transcripts.map((entry, i) => (
-            <p key={i} className="text-gray-900 text-lg leading-relaxed">
-              {entry.text}
-            </p>
+            <EditableTranscript
+              key={i}
+              text={entry.text}
+              onUpdate={(newText) => onUpdateTranscript?.(i, newText)}
+            />
           ))}
 
-          {/* 현재 인식 중인 텍스트 (회색) */}
+          {/* 현재 인식 중인 텍스트 (회색 + 하이라이팅) */}
           {currentPartial && (
-            <p className="text-gray-400 text-lg leading-relaxed italic">
-              {currentPartial}
+            <p className="text-lg leading-relaxed italic text-gray-400">
+              <HighlightedText
+                text={currentPartial}
+                className="opacity-60"
+              />
             </p>
           )}
 

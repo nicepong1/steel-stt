@@ -16,6 +16,7 @@ export default function Home() {
     connect,
     disconnect,
     sendAudioChunk,
+    updateTranscript,
     clearTranscripts,
   } = useSTTWebSocket(WS_URL);
 
@@ -65,6 +66,7 @@ export default function Home() {
       <TranscriptDisplay
         transcripts={transcripts}
         currentPartial={currentPartial}
+        onUpdateTranscript={updateTranscript}
       />
 
       {/* 하단 컨트롤 */}

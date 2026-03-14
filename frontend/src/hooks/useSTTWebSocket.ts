@@ -71,6 +71,15 @@ export function useSTTWebSocket(wsUrl: string) {
     }
   }, []);
 
+  /** 특정 인덱스의 transcript 텍스트 수정 (오인식 수동 교정용) */
+  const updateTranscript = useCallback((index: number, newText: string) => {
+    setTranscripts((prev) =>
+      prev.map((entry, i) =>
+        i === index ? { ...entry, text: newText } : entry
+      )
+    );
+  }, []);
+
   /** 결과 초기화 */
   const clearTranscripts = useCallback(() => {
     setTranscripts([]);
@@ -84,6 +93,7 @@ export function useSTTWebSocket(wsUrl: string) {
     connect,
     disconnect,
     sendAudioChunk,
+    updateTranscript,
     clearTranscripts,
   };
 }
