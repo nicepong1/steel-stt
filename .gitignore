@@ -26,8 +26,7 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Google Cloud credentials
-*.json
-!package.json
-!package-lock.json
-!tsconfig.json
+# Google Cloud credentials (서비스 계정 키)
+*-credentials.json
+*-service-account.json
+gcloud-*.json
